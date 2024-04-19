@@ -10,8 +10,13 @@ export class ProcessoController {
     return this.processoService.findAll();
   }
 
-  @Get(':id')
+  @Get('/one/:id')
   findOne(@Param('id') id: string) {
     return this.processoService.findOne(+id);
+  }
+
+  @Get('/last')
+  findLast() {
+    return this.processoService.findLast();
   }
 }

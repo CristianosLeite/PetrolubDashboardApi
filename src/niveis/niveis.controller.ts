@@ -10,8 +10,13 @@ export class NiveisController {
     return this.niveisService.findAll();
   }
 
-  @Get(':id')
+  @Get('/one/:id')
   findOne(@Param('id') id: string) {
     return this.niveisService.findOne(+id);
+  }
+
+  @Get('/last')
+  getLastNivel() {
+    return this.niveisService.getLastNivel();
   }
 }

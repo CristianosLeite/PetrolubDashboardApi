@@ -19,4 +19,11 @@ export class ProcessoService {
       where: { processo_id: id },
     });
   }
+
+  public async findLast(): Promise<Processo[]> {
+    return await this.processoRepository.find({
+      order: { processo_id: 'DESC' },
+      take: 1,
+    });
+  }
 }

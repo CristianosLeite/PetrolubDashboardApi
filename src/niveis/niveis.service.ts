@@ -19,4 +19,13 @@ export class NiveisService {
       where: { nivel_id: id },
     });
   }
+
+  public async getLastNivel(): Promise<Nivel[]> {
+    return await this.nivelRepository.find({
+      order: {
+        nivel_id: 'DESC',
+      },
+      take: 1,
+    });
+  }
 }
