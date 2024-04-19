@@ -28,7 +28,6 @@ import { HttpModule } from '@nestjs/axios';
     }),
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: process.env.DATABASE_HOST,
       schema: process.env.DATABASE_SCHEMA,
       autoLoadEntities: true,
       synchronize: true,

@@ -11,7 +11,7 @@ async function bootstrap() {
   app.useBodyParser('json', { limit: '50mb' });
   app.use(cookieParser());
   app.enableCors({
-    origin: `${process.env.FRONTEND_URL}`,
+    origin: [`${process.env.FRONTEND_URL}`],
     credentials: true,
   });
 
