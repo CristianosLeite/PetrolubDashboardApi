@@ -37,7 +37,7 @@ export class AuthController {
             sameSite: 'none',
             maxAge: 1000 * 60 * 60 * 24 * 1,
           })
-          .redirect(`${process.env.FRONTEND_URL}/${app}/#/login`);
+          .redirect(`${process.env.FRONTEND_URL}/${app}`);
       }
     } catch (err: any) {
       res.redirect(
