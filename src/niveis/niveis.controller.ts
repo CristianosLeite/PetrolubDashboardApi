@@ -1,6 +1,9 @@
 import { Controller, Get, Param } from '@nestjs/common';
 import { NiveisService } from './niveis.service';
+import { UseGuards } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 
+@UseGuards(AuthGuard('bearer'))
 @Controller('nivel')
 export class NiveisController {
   constructor(private readonly niveisService: NiveisService) {}

@@ -50,7 +50,7 @@ export class UsersController {
       decodedToken.user.company_id,
       decodedToken.user.user_id,
       decodedToken.user.role.role_name,
-      user.cod_user,
+      user.usercode,
     );
   }
 

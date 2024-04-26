@@ -16,15 +16,16 @@ export class AuthController {
 
   @Get()
   async getToken(
-    @Query('cod_company') email: string,
-    @Query('cod_user') cod_user: string,
+    @Query('username') username: string,
+    @Query('usercode') usercode: string,
+    @Query('app') app: string,
     @Res() res: Response,
   ): Promise<void> {
     try {
-      if (!email || !cod_user) {
-        throw new UnauthorizedException('Empresa ou usuário não informado');
+      if (!username || !usercode) {
+        throw new UnauthorizedException('Usuário ou senha não informado');
       } else {
-        const user = await this.authService.findUser(email, cod_user);
+        const user = await this.authService.findUser(username, usercode);
 
         const token = await this.authService.createToken(user);
 
@@ -36,7 +37,7 @@ export class AuthController {
             sameSite: 'none',
             maxAge: 1000 * 60 * 60 * 24 * 1,
           })
-          .redirect(`${process.env.FRONTEND_URL}/app-ponto`);
+          .redirect(`${process.env.FRONTEND_URL}/${app}`);
       }
     } catch (err: any) {
       res.redirect(
@@ -79,6 +80,6 @@ export class LogoutController {
     res
       .setHeader('Access-Control-Allow-Origin', process.env.FRONTEND_URL)
       .clearCookie('token')
-      .redirect(`${process.env.FRONTEND_URL}/app-ponto`);
+      .redirect(`${process.env.FRONTEND_URL}/`);
   }
 }

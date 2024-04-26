@@ -10,7 +10,10 @@ export class User {
   user_id: string;
 
   @Column({ type: 'text', nullable: false, unique: true })
-  cod_user: string;
+  username: string;
+
+  @Column({ type: 'text', nullable: false, unique: true })
+  usercode: string;
 
   @Column({ nullable: false })
   first_name: string;
@@ -18,11 +21,14 @@ export class User {
   @Column({ nullable: false })
   last_name: string;
 
-  @Column({ unique: true })
+  @Column({ unique: true, nullable: true })
   register_number: string;
 
-  @Column({ unique: true })
+  @Column({ unique: true, nullable: true })
   email: string;
+
+  @Column({ nullable: false, default: 'user' })
+  role: string;
 
   @Column({ type: 'date', unique: false })
   created_at: string;

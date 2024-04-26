@@ -22,8 +22,8 @@ export class AuthService {
       secret: process.env.JWT_SECRET,
     });
     const user = await this.validateUser(
-      payload.user.company_id,
-      payload.user.user_id,
+      payload.user.username,
+      payload.user.usercode,
     );
     if (user) {
       return user;
@@ -32,20 +32,21 @@ export class AuthService {
     }
   }
 
-  async findUser(email: string, cod_user: string): Promise<User> {
-    const user = await this.usersService.findUser(email, cod_user);
+  async findUser(username: string, usercode: string): Promise<User> {
+    const user = await this.usersService.findUser(username, usercode);
     if (user) {
       return user;
     } else {
-      throw new Error('User not found');
+      throw new NotFoundException('User not found');
     }
   }
 
-  async validateUser(email: string, user_id: string): Promise<User> {
-    const user = await this.usersService.findUser(email, user_id);
+  async validateUser(username: string, usercode: string): Promise<User> {
+    const user = await this.usersService.findUser(username, usercode);
     if (user) {
       const credentials = {
-        user_id: user.user_id,
+        username: user.username,
+        usercode: user.usercode,
         first_name: user.first_name,
         last_name: user.last_name,
       };

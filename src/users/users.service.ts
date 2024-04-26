@@ -18,6 +18,14 @@ export class UsersService {
   public async create(user: User): Promise<User> {
     await this.setUniqueCodUser(user);
 
+    if (!user) {
+      throw new Error('Dados não informados');
+    }
+
+    if (!user.created_at) {
+      user.created_at = new Date().toISOString();
+    }
+
     const createdUser = await this.saveUser(user);
     return createdUser;
   }
@@ -27,21 +35,21 @@ export class UsersService {
   }
 
   private async setUniqueCodUser(user: User): Promise<void> {
-    if (!user.cod_user) {
+    if (!user.usercode) {
       let cod_user = await this.calculateCodUser();
       const existingUser = await this.userRepository.findOne({
-        where: { cod_user: cod_user },
+        where: { usercode: cod_user },
       });
 
       if (!existingUser) {
-        user.cod_user = cod_user;
+        user.usercode = cod_user;
       } else {
         cod_user = await this.calculateCodUser();
-        user.cod_user = cod_user;
+        user.usercode = cod_user;
       }
     }
 
-    user.cod_user = await this.encryptCodUser(user.cod_user);
+    user.usercode = await this.encryptCodUser(user.usercode);
   }
 
   public async findOne(userId: string): Promise<User> {
@@ -62,7 +70,7 @@ export class UsersService {
       where: { user_id: userId, situation: 'Activated' },
     });
     if (!existingUser) {
-      throw new Error('Registro não encontrado');
+      throw new NotFoundException('Registro não encontrado');
     }
 
     return this.userRepository.save({
@@ -94,7 +102,7 @@ export class UsersService {
     }
     return this.userRepository.save({
       ...existingUser,
-      cod_user: await this.encryptCodUser(password),
+      usercode: await this.encryptCodUser(password),
     });
   }
 
@@ -108,32 +116,42 @@ export class UsersService {
     return await this.userRepository.remove(existingUser);
   }
 
-  public async findUser(email: string, cod_user: string): Promise<User> {
-    const user = await this.userRepository.findOne({
-      where: { email: email },
+  public async findUser(userName: string, userCode: string): Promise<User> {
+    let user = await this.userRepository.findOne({
+      where: { username: userName },
     });
+
     if (!user) {
-      throw new Error('Usuário não encontrado');
+      throw new NotFoundException('Usuário não encontrado');
     }
-    const isUser = await this.decryptCodUser(cod_user, user.cod_user);
+
+    const isUser = await this.decryptCodUser(userCode, user.usercode);
+
     if (!isUser) {
-      throw new Error('Usuário não encontrado');
+      user = await this.userRepository.findOne({
+        where: { usercode: userCode },
+      });
     }
+
+    if (!user) {
+      throw new NotFoundException('Usuário não encontrado');
+    }
+
     return user;
   }
 
   private async calculateCodUser(): Promise<string> {
-    const cod_user =
+    const usercode =
       Math.floor(Math.random()) + Math.floor(Math.random() * 500000);
-    return await this.encryptCodUser(cod_user.toString());
+    return await this.encryptCodUser(usercode.toString());
   }
 
-  private async encryptCodUser(cod_user: string): Promise<string> {
+  private async encryptCodUser(usercode: string): Promise<string> {
     try {
       const saltRounds = 8;
       const key = process.env.CRYPTO_KEY;
 
-      const encryptedCodUser = await bcrypt.hash(cod_user + key, saltRounds);
+      const encryptedCodUser = await bcrypt.hash(usercode + key, saltRounds);
 
       return encryptedCodUser;
     } catch (error) {
@@ -142,12 +160,12 @@ export class UsersService {
   }
 
   private async decryptCodUser(
-    cod_user: string,
+    usercode: string,
     hash: string,
   ): Promise<boolean> {
     try {
       const key = process.env.CRYPTO_KEY;
-      const decryptedCodUser = await bcrypt.compare(cod_user + key, hash);
+      const decryptedCodUser = await bcrypt.compare(usercode + key, hash);
 
       return decryptedCodUser;
     } catch (error) {
@@ -156,7 +174,7 @@ export class UsersService {
   }
 
   public async deactivateUser(
-    company_id: string,
+    username: string,
     user_id: string,
     role: string,
     user: User,
@@ -164,7 +182,7 @@ export class UsersService {
     if (role !== 'admin' && role !== 'manager') {
       throw new UnauthorizedException('Acesso negado');
     }
-    if (!company_id || !user_id) {
+    if (!username || !user_id) {
       throw new Error('Parâmetros incorretos');
     }
     if (!user) {
