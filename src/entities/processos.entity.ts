@@ -46,7 +46,7 @@ export class Processo {
   @Column({ type: 'real', nullable: true })
   total_litros_processo: string;
 
-  @OneToMany(() => Evento, (evento) => evento.processo, { eager: true })
+  @OneToMany(() => Evento, (evento) => evento.processo, { eager: false })
   @JoinColumn({ name: 'processo_id' })
   eventos: Evento[];
 }

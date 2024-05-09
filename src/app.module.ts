@@ -16,6 +16,8 @@ import { ProcessoModule } from './processo/processo.module';
 import { EventosModule } from './eventos/eventos.module';
 import { NiveisModule } from './niveis/niveis.module';
 import { HttpModule } from '@nestjs/axios';
+import { TicketsModule } from './tickets/tickets.module';
+import { Ticket } from './entities/tickets.entity';
 
 @Module({
   imports: [
@@ -36,12 +38,13 @@ import { HttpModule } from '@nestjs/axios';
       url: process.env.DATABASE_URL,
       useUTC: true,
     }),
-    TypeOrmModule.forFeature([User, Processo, Evento, Nivel]),
+    TypeOrmModule.forFeature([User, Processo, Evento, Nivel, Ticket]),
     AuthModule,
     UserModule,
     ProcessoModule,
     EventosModule,
     NiveisModule,
+    TicketsModule,
   ],
   controllers: [UsersController, AuthController, LogoutController],
   providers: [UsersService, AuthService, JwtService],

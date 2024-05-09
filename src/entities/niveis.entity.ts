@@ -43,7 +43,7 @@ export class Nivel {
   @Column({ type: 'timestamp without time zone', nullable: false })
   data_hora_evento: string;
 
-  @OneToOne(() => Evento, (evento) => evento.evento_id, { eager: true })
+  @OneToOne(() => Evento, (evento) => evento.evento_id, { eager: false })
   @JoinColumn({ name: 'evento_id' })
   evento: Evento[];
 }
