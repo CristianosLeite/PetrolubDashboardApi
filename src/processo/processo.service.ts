@@ -11,7 +11,9 @@ export class ProcessoService {
   ) {}
 
   public async findAll(): Promise<Processo[]> {
-    return await this.processoRepository.find();
+    return await this.processoRepository.find({
+      order: { processo_id: 'ASC' },
+    });
   }
 
   public async findOne(id: number): Promise<Processo> {
