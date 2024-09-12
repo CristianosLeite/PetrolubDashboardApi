@@ -1,4 +1,4 @@
-import { AuthController, LogoutController } from './auth/auth.controller';
+import { AuthController } from './auth/auth.controller';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
@@ -46,7 +46,7 @@ import { Ticket } from './entities/tickets.entity';
     NiveisModule,
     TicketsModule,
   ],
-  controllers: [UsersController, AuthController, LogoutController],
+  controllers: [UsersController, AuthController],
   providers: [UsersService, AuthService, JwtService],
 })
 export class AppModule {}

@@ -54,7 +54,7 @@ export class AuthService {
     }
   }
 
-  async createToken(user: User, time?: string): Promise<string> {
+  async createToken(user: Partial<User>, time?: string): Promise<string> {
     const payload = { user };
     if (time) {
       return this.jwtService.sign(payload, {
