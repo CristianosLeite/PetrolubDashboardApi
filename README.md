@@ -47,6 +47,14 @@ These instructions will help you set up the project on your local machine for de
 
   # Authentication
   JWT_SECRET=your_jwt_secret
+
+  # Default user
+  USERNAME=your_default_username
+  USERCODE=your_default_usercode
+  FIRST_NAME=your_default_first_name
+  LAST_NAME=your_default_last_name
+  REGISTER_NUMBER=your_default_register_number
+  EMAIL=your_default_email
   ```
 
 ### Running the Application

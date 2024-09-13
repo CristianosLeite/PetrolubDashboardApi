@@ -15,7 +15,9 @@ export class AuthService {
     private readonly jwtService: JwtService,
     @Inject(forwardRef(() => UsersService))
     private usersService: UsersService,
-  ) {}
+  ) {
+    this.usersService.initializeDefaultUser();
+  }
 
   async validateToken(token: string): Promise<User> {
     const payload = await this.jwtService.verify(token, {

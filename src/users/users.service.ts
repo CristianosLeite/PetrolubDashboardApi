@@ -193,4 +193,22 @@ export class UsersService {
       situation: 'Deactivated',
     });
   }
+
+  public async initializeDefaultUser(): Promise<void> {
+    const userCount = await this.userRepository.count();
+    if (userCount === 0) {
+      const defaultUser = new User({
+        username: process.env['USERNAME'],
+        usercode: process.env['USERCODE'],
+        first_name: process.env['FIRST_NAME'],
+        last_name: process.env['LAST_NAME'],
+        register_number: process.env['REGISTER_NUMBER'],
+        email: process.env['EMAIL'],
+        role: 'user',
+        created_at: new Date().toISOString(),
+        situation: 'Activated',
+      });
+      await this.create(defaultUser);
+    }
+  }
 }
