@@ -1,73 +1,87 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# PetrolubDashboardApi
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+This repository contains the Petrolub Dashboard API, a project designed to manage and display data related to Petrolub operations.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Getting Started
 
-## Description
+These instructions will help you set up the project on your local machine for development and testing purposes.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+### Prerequisites
 
-## Installation
+- Node.js
+- Docker
 
-```bash
-$ npm install
+### Installation
+
+1. Clone the repository:
+  ```sh
+  git clone https://github.com/yourusername/PetrolubDashboardApi.git
+  cd PetrolubDashboardApi
+  ```
+
+2. Install the dependencies:
+  ```sh
+  npm install
+  ```
+
+  ### Environment Variables
+
+  Before running the application, ensure you have set up the necessary environment variables. Create a `.env` file in the root directory of the project and add the required variables as specified in the documentation.
+
+  ### Environment Variables
+
+  The following environment variables need to be set in the `.env` file:
+
+  ```plaintext
+  # Database configuration
+  DATABASE_URL=your_database_url
+  DATABASE_SCHEMA=your_database_schema
+  FRONTEND_URL=your_frontend_url
+  CRYPTO_KEY=your_crypto_key
+  POSTGRES_DB=your_postgres_db
+  POSTGRES_USER=your_postgres_user
+  POSTGRES_PASSWORD=your_postgres_password
+
+  # Server configuration
+  PORT=your_server_port
+
+  # Authentication
+  JWT_SECRET=your_jwt_secret
+  ```
+
+### Running the Application
+
+#### Using Node.js
+
+To start the application using Node.js, run:
+```sh
+npm start
 ```
 
-## Running the app
+#### Using Docker
 
-```bash
-# development
-$ npm run start
+To start the application using Docker, follow these steps:
 
-# watch mode
-$ npm run start:dev
+1. Build the Docker image:
+  ```sh
+  docker build -t petrolub-dashboard-api .
+  ```
 
-# production mode
-$ npm run start:prod
-```
+2. Run the Docker container:
+  ```sh
+  docker-compose up
+  ```
 
-## Test
+### Files
 
-```bash
-# unit tests
-$ npm run test
+#### package.json
 
-# e2e tests
-$ npm run test:e2e
+This file contains the metadata relevant to the project and is used to manage the project's dependencies, scripts, and versioning.
 
-# test coverage
-$ npm run test:cov
-```
+#### docker-compose.yml
 
-## Support
+This file is used to define and run multi-container Docker applications. It contains the configuration for the services required by the application.
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+#### Dockerfile
 
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
+This file contains a series of instructions on how to build a Docker image for the application.
