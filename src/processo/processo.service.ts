@@ -12,7 +12,8 @@ export class ProcessoService {
 
   public async findAll(): Promise<Processo[]> {
     return await this.processoRepository.find({
-      order: { processo_id: 'ASC' },
+      order: { processo_id: 'DESC' },
+      take: 200,
     });
   }
 
