@@ -19,7 +19,7 @@ jobs:
     - name: Generate SSH key
       run: |
         mkdir -p ~/.ssh
-        ssh-keygen -t ed25519 -C "conecsa@conecsa.com.br" -f ~/.ssh/id_ed25519 -N ""
+        ssh-keygen -t ed25519 -C "root@conecsa.com.br" -f ~/.ssh/id_ed25519 -N ""
         cat ~/.ssh/id_ed25519.pub
       env:
         HOME: /home/runner
@@ -34,11 +34,11 @@ jobs:
 
     - name: Copy SSH key to remote host
       run: |
-        cat ~/.ssh/id_ed25519.pub | sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh conecsa@conecsa.com.br "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys"
+        cat ~/.ssh/id_ed25519.pub | sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh root@conecsa.com.br "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys"
 
     - name: Create Docker context
       run: |
-        docker context create remote --docker "host=ssh://conecsa@conecsa.com.br"
+        docker context create remote --docker "host=ssh://root@conecsa.com.br"
 
     - name: Create .env file
       run: |
