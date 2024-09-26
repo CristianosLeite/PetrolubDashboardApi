@@ -38,4 +38,4 @@ jobs:
 
     - name: Deploy with Docker Compose
       run: |
-        docker-compose --context remote up -d
+        docker compose --context remote up -d
