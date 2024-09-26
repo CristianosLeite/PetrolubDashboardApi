@@ -16,25 +16,23 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
 
-    - name: Generate SSH key
+    - name: Set up SSH
       run: |
-        ssh-keygen -t ed25519 -C "conecsa@conecsa.com.br" -f ~/.ssh/id_ed25519 -N ""
+        mkdir -p ~/.ssh
         echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
         chmod 600 ~/.ssh/id_ed25519
-
-    - name: Add SSH key to the agent
-      run: |
         eval "$(ssh-agent -s)"
         ssh-add ~/.ssh/id_ed25519
+        ssh-keyscan -H conecsa.com.br >> ~/.ssh/known_hosts
 
     - name: Copy SSH key to remote host
       run: |
-        ssh-keyscan -H conecsa.com.br >> ~/.ssh/known_hosts
         sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh-copy-id -i ~/.ssh/id_ed25519.pub conecsa@conecsa.com.br
 
     - name: Create Docker context
       run: |
         docker context create remote --docker "host=ssh://conecsa@conecsa.com.br"
+
     - name: Create .env file
       run: |
         echo "CRYPTO_KEY=${{ secrets.CRYPTO_KEY }}" >> .env
@@ -53,6 +51,7 @@ jobs:
         echo "USERNAME=${{ secrets.USERNAME }}" >> .env
       working-directory: /home/runner/work/PetrolubDashboardApi/PetrolubDashboardApi
 
-    - name: Deploy with Docker Compose V2
+    - name: Deploy with Docker Compose v2
       run: |
         docker --context remote compose up -d
+      working-directory: /home/runner/work/PetrolubDashboardApi/PetrolubDashboardApi
